@@ -3,11 +3,9 @@
 	Searches for repeating subtrings within a limited element window, or history buffer.
 */
 //compile: g++ -std=c++11 main.cpp
-//TODO: Makefile
-//TODO: Investigate window limits
 //Improvement: implement max distance between detected repeats?
-//Improvement: take advantage of that history buffer changes slowly, to not detect same repeat multiple times?
-//Improvement: use better string search algorithm?
+//Improvement: take advantage of fact that history buffer changes slowly, to not detect same repeat multiple times?
+//Improvement: use better string search algorithm? currently uses brute force
 #include <iostream>
 #include <fstream>
 #include "circulararray_template.h"
@@ -32,10 +30,7 @@ int main(int argc, char* argv[])
 	{
 		if(history.Full()) history.PopFront();
 		history.PushBack(c);
-		for(int i=0; i<history.Size(); i++)
-		{
-			DetectRepeats(history);
-		}
+		DetectRepeats(history);
 	}
 	
 	return 0;
@@ -49,7 +44,7 @@ bool StringCompare(const CircularArray<char>& buffer, const size_t s1, const siz
 
 bool FindString(const CircularArray<char>& buffer, const size_t patternStartIndex, const size_t patternEndIndex, const size_t stringStartIndex, const size_t stringEndIndex)
 {
-	for(size_t i=stringStartIndex; i<stringEndIndex+patternStartIndex-patternEndIndex; i++)
+	for(size_t i=stringStartIndex; i<=stringEndIndex+patternStartIndex-patternEndIndex; i++)
 	{
 		if(StringCompare(buffer, patternStartIndex, i, patternEndIndex-patternStartIndex+1)) return true;
 	}
