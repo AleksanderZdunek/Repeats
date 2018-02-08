@@ -23,7 +23,9 @@ size_t DetectLoop(const CircularArray<char>& buffer);
 
 int main(int argc, char* argv[])
 {
-	std::cout <<  "Loop detection" << std::endl;
+	std::cout <<  "Loop detection\n" << std::endl;
+	
+	if(argc>1) filename = argv[1];
 	
 	uint64_t streamCount(0);
 	LoopInfo loopInfo{0,0,0};
@@ -50,8 +52,8 @@ int main(int argc, char* argv[])
 			{
 				if(loopInfo.loopSize) std::cout << loopInfo << "\n"; //print out info for previous loop size
 				loopInfo.loopSize = detect;
-				loopInfo.streamPosition = streamCount - loopInfo.loopSize;
 				loopInfo.loopCount = 1;
+				loopInfo.streamPosition = streamCount - loopInfo.loopSize*(loopInfo.loopCount + 1)+1;
 			}
 		}
 		else
@@ -67,7 +69,7 @@ int main(int argc, char* argv[])
 	if(loopInfo.loopSize)
 	{
 		std::cout << loopInfo << "\n"; //print loop info
-		loopInfo.loopCount = loopInfo.loopSize = 0;//superflous here
+		loopInfo.loopCount = loopInfo.loopSize = 0;
 	}
 	
 	return 0;
