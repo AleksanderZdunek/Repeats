@@ -15,6 +15,7 @@ struct LoopInfo
 std::ostream& operator<<(std::ostream& os, const LoopInfo& info)  
 {
 	os << "Loop @ stream pos: " << info.streamPosition << "\nSize: " << info.loopSize << "\nCount: " << info.loopCount << "\n";
+	os << "Count2: " << info.loopCount+2*info.loopSize-1 << "\n";
 	return os;
 } 
 
